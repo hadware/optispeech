@@ -22,7 +22,7 @@ log = get_script_logger(__name__)
 
 
 
-def process_row(row, feature_extractor, text_processor, wav_path, data_dir, sids, lids):
+def process_row(row, feature_extractor, text_processor, wav_path: Path, data_dir : Path, sids, lids):
     if len(row) == 2:
         filestem, text = row
         speaker = lang = None
@@ -38,6 +38,11 @@ def process_row(row, feature_extractor, text_processor, wav_path, data_dir, sids
     audio_path = audio_path.resolve()
     sid = sids.index(speaker.strip().lower()) if speaker else None
     lid = lids.index(lang.strip().lower()) if lang else None
+
+    if (data_dir / f"{audio_path.stem}.npz").is_file():
+        log.info(f"Skipping processing for {audio_path.stem}, already done")
+        return audio_path.stem, True
+
     try:
         data = do_preprocess_utterance(
             feature_extractor=feature_extractor,
@@ -176,12 +181,12 @@ def main():
         ("val.txt", val_root),
     )
     output_dir = Path(args.output_dir)
-    if output_dir.is_dir():
-        log.error(f"Output directory {output_dir} already exist. Stopping")
-        exit(1)
-    output_dir.mkdir(parents=True)
+    # if output_dir.is_dir():
+    #     log.error(f"Output directory {output_dir} already exist. Stopping")
+    #     exit(1)
+    output_dir.mkdir(parents=True, exist_ok=True)
     data_dir = output_dir.joinpath("data")
-    data_dir.mkdir()
+    data_dir.mkdir(exist_ok=True)
     # eSpeak uses global state for language.
     # Comment this line if you're not using eSpeak for phonemization
     n_workers = args.n_workers if not text_processor.is_multi_language else 1

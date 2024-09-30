@@ -5,8 +5,8 @@ defaults:
 # Dataset URL: https://ast-astrec.nict.go.jp/en/release/hi-fi-captain/
 _target_: optispeech.dataset.TextWavDataModule
 name: hi-fi_en-US_female
-train_filelist_path: data/hfc_female-en_us/train.txt
-valid_filelist_path: data/hfc_female-en_us/val.txt
+train_filelist_path: experiments/preprocessed/hfc_female-en_us/train.txt
+valid_filelist_path: experiments/preprocessed/hfc_female-en_us/val.txt
 batch_size: 64
 num_workers: 8
 feature_extractor:

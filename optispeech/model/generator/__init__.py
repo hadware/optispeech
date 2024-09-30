@@ -18,22 +18,22 @@ from .loss import FastSpeech2Loss, ForwardSumLoss
 
 class OptiSpeechGenerator(nn.Module):
     def __init__(
-        self,
-        dim: int,
-        segment_size,
-        text_embedding,
-        encoder,
-        duration_predictor,
-        pitch_predictor,
-        energy_predictor,
-        decoder,
-        wav_generator,
-        loss_coeffs,
-        feature_extractor,
-        num_speakers,
-        num_languages,
-        data_statistics,
-        **kwargs
+            self,
+            dim: int,
+            segment_size,
+            text_embedding,
+            encoder,
+            duration_predictor,
+            pitch_predictor,
+            energy_predictor,
+            decoder,
+            wav_generator,
+            loss_coeffs,
+            feature_extractor,
+            num_speakers,
+            num_languages,
+            data_statistics,
+            **kwargs
     ):
         super().__init__()
 
@@ -63,7 +63,14 @@ class OptiSpeechGenerator(nn.Module):
         self.loss_criterion = FastSpeech2Loss()
         self.forwardsum_loss = ForwardSumLoss()
 
-    def forward(self, x, x_lengths, mel, mel_lengths, pitches, energies, sids, lids):
+    def forward(self, x: torch.Tensor,
+                x_lengths: torch.Tensor,
+                mel: torch.Tensor,
+                mel_lengths: torch.Tensor,
+                pitches: torch.Tensor,
+                energies: torch.Tensor,
+                sids: torch.LongTensor,
+                lids: torch.LongTensor):
         """
         Args:
             x (torch.Tensor): batch of texts, converted to a tensor with phoneme embedding ids.
@@ -161,12 +168,15 @@ class OptiSpeechGenerator(nn.Module):
         forwardsum_loss = self.forwardsum_loss(log_p_attn, x_lengths, mel_lengths)
         align_loss = forwardsum_loss + bin_loss
         loss = (
-            (align_loss * loss_coeffs.lambda_align)
-            + (duration_loss * loss_coeffs.lambda_duration)
-            + (pitch_loss * loss_coeffs.lambda_pitch)
-            + (energy_loss * loss_coeffs.lambda_energy)
+                (align_loss * loss_coeffs.lambda_align)
+                + (duration_loss * loss_coeffs.lambda_duration)
+                + (pitch_loss * loss_coeffs.lambda_pitch)
+                + (energy_loss * loss_coeffs.lambda_energy)
         )
 
+        # NOTES: wav_hat probably used by discriminator loss, start_idx and segment_size to identify the selected segment
+        # Most important values are the different losses
+        # Only loss is the actual total loss, the rest are returned for logging
         return {
             "wav_hat": wav_hat,
             "start_idx": start_idx,

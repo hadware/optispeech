@@ -9,7 +9,7 @@ dependencies = [
     "torchmetrics>=0.11.4",
     "nnaudio>=0.3.3",
     "penn==0.0.14",
-    "piper-phonemize>=1.1.0",
+    "piper-phonemize-cross>=1.1.0",
     "pyworld>=0.3.4",
     "pesq>=0.0.4",
     "hydra-core>=1.3.2",
