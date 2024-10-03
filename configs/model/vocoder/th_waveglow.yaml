@@ -1,0 +1,4 @@
+_target_: torch.hub.load
+repo_or_dir: 'NVIDIA/DeepLearningExamples:torchhub'
+model: 'nvidia_waveglow'
+model_path: 'fp32'

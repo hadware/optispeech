@@ -74,7 +74,6 @@ class InferenceInputs(BaseValueContainer):
     x: IntArray
     x_lengths: IntArray
     sids: IntArray|None = None
-    lids: IntArray|None = None
     d_factor: float = 1.0
     p_factor: float = 1.0
     e_factor: float = 1.0

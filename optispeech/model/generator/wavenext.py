@@ -12,7 +12,7 @@ class WaveNeXtHead(nn.Module):
 
     Args:
         dim (int): Hidden dimension of the model.
-        n_fft (int): Size of Fourier transform.
+        n_fft (int): Size of Mel spectrogram.
         hop_length (int): The distance between neighboring sliding window frames, which should align with
                           the resolution of the input features.
     """
@@ -35,6 +35,7 @@ class WaveNeXtHead(nn.Module):
         Args:
             x (Tensor): Input tensor of shape (B, L, H), where B is the batch size,
                         L is the sequence length, and H denotes the model dimension.
+                        NOTE: probably mel spectrogram dim here
 
         Returns:
             Tensor: Reconstructed time-domain audio signal of shape (B, T), where T is the length of the output signal.

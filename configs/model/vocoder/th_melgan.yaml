@@ -1,0 +1,3 @@
+_target_: torch.hub.load
+repo_or_dir: 'seungwonpark/melgan'
+model: 'melgan'

@@ -1,12 +1,13 @@
 defaults:
   - _self_
   - generator: default
-  - discriminator: vocos_disc
   - optimizer: adamw
   - scheduler: cosine_with_warmup
+  - vocoder: th_melgan
+
 
 _target_: optispeech.model.OptiSpeech
-dim: 256
+dim: 80
 train_args:
   cache_generator_outputs: true
   gradient_clip_val: 1.0
