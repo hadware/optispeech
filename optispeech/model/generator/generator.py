@@ -89,7 +89,7 @@ class OptiSpeechGenerator(nn.Module):
             x_lengths (torch.Tensor): lengths of texts in batch.
                 shape: (batch_size,)
             mel (torch.Tensor): batch of texts, converted to a tensor with phoneme embedding ids.
-                shape: (batch_size,max_text_length, mel_number) TODO check order
+                shape: (batch_size,mel_number, max_text_length) TODO check order
             x_lengths (torch.Tensor): lengths of texts in batch.
                 shape: (batch_size, max_mel_length)
             pitches (torch.Tensor): phoneme-level pitch values.
